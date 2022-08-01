@@ -1,22 +1,48 @@
-from sensor import *
+#! /usr/bin/python3
+import csv
 import time
+from os import listdir
+from sensors import connect_to_CO2_sensor, get_CO2_reading, connect_to_bme688_sensor
+from sys import exit
+from threading import Thread
 
-""" 
-sensor.py has the following functions: 
-1) connectPiToSensor() -> This function will connect the sensor to the Pi and ensures the connection between the Raspberry Pi and sensor is working 
+def sleep_till(target_time):
+	duration = target_time - time.time()
+	if duration < 0:
+		return
+	if duration > 0.1:
+		time.sleep(duration - 0.1)
+	while target_time - time.time() > 0.01:
+		time.sleep(0.01)
 
-2) getReading(sensor) -> This function will parse the input from the carbon dioxide sensor and output a carbon dioxide concentration value (in ppm). The input to this function is the output of the connectPiToSensor() functional call. 
+MEASUREMENT_INTERVAL = 5
+OUTPUT_FILE = "SP3175 Sensor Readings.csv"
 
-Please you these functions to write your own code. 
-"""
+if OUTPUT_FILE not in listdir():
+	with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
+		csv_writer = csv.writer(csvfile)
+		csv_writer.writerow(("CO2", "Temperature", "Humidity", "Pressure, Gas"))
 
-# Your code goes here! 
+with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
+	csv_writer = csv.writer(csvfile)
 
-sensor = connectPiToSensor()
+	CO2_sensor = connect_to_CO2_sensor()
+	bme688_sensor = connect_to_bme688_sensor()
 
-while True:
-	f = open("CO2.txt","a+")
-	reading = getReading(sensor)
-	f.write("Current date & time " + time.strftime("%c") + str(reading) + " \n")
-	time.sleep(10)
-	f.close()
+	start_time = time.time()
+	while True:
+		# loop_start_time = time.time()
+		timer_thread = Thread(target = sleep_till, args = (start_time + MEASUREMENT_INTERVAL,))
+		timer_thread.start()
+		start_time += MEASUREMENT_INTERVAL
+		CO2 = get_CO2_reading(CO2_sensor)
+		temp = bme688_sensor.temperature
+		hum = bme688_sensor.relative_humidity
+		pressure = bme688_sensor.pressure
+		gas = bme688_sensor.gas
+		# print(f"CO2: {CO2}, T: {temp}, H: {hum}, P: {pressure}, G: {gas}")
+		# print(f"Measurement duration : {time.time() - loop_start_time} s")
+		csv_writer.writerow((CO2, temp, hum, pressure, gas))
+
+		timer_thread.join()
+
