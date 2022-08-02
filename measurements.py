@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 import csv
 import time
+import signal
 from os import listdir
 from sensors import connect_to_CO2_sensor, get_CO2_reading, connect_to_bme688_sensor
 from sys import exit
@@ -14,6 +15,10 @@ def sleep_till(target_time):
 		time.sleep(duration - 0.1)
 	while target_time - time.time() > 0.01:
 		time.sleep(0.01)
+
+def sigint_handler(sig_num, stack_frame):
+	csvfile.flush()
+	csvfile.close()
 
 MEASUREMENT_INTERVAL = 5
 OUTPUT_FILE = "SP3175 Sensor Readings.csv"
@@ -43,6 +48,7 @@ with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 		# print(f"CO2: {CO2}, T: {temp}, H: {hum}, P: {pressure}, G: {gas}")
 		# print(f"Measurement duration : {time.time() - loop_start_time} s")
 		csv_writer.writerow((CO2, temp, hum, pressure, gas))
+		csvfile.flush()
 
 		timer_thread.join()
 
