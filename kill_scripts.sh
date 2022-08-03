@@ -1,7 +1,13 @@
 #!/usr/bin/sh
-if (pgrep -a python3 measurements.py | wc -l)
-	pkill python3
-	echo "Measurements.py terminated"
+if pgrep -f "python3 measurements.py" > /dev/null ; then
+	echo "A running measurements.py process has been detected. Terminating ..."
+	pkill -f -SIGTERM "python3 measurements.py"
+	if ! pgrep -f "python3 measurements.py" > /dev/null ; then
+		echo "measurements.py terminated successfully"
 	else
-		echo "Measurements.py is already not running"
+		echo "Failed to terminate measurements.py"
+	fi
+else
+	echo "No running measurements.py process has been detected."
+fi
 
