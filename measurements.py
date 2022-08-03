@@ -16,7 +16,8 @@ def sleep_till(target_time):
 	while target_time - time.time() > 0.01:
 		time.sleep(0.01)
 
-def sigint_handler(sig_num, stack_frame):
+def signal_handler(sig_num, stack_frame):
+	print("Received signal, stopping")
 	csvfile.flush()
 	csvfile.close()
 
@@ -33,6 +34,9 @@ with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 
 	CO2_sensor = connect_to_CO2_sensor()
 	bme688_sensor = connect_to_bme688_sensor()
+
+	signal.signal(signal.SIGINT, signal_handler)
+	signal.signal(signal.SIGTERM, signal_handler)
 
 	start_time = time.time()
 	while True:
