@@ -20,6 +20,7 @@ def signal_handler(sig_num, stack_frame):
 	print("Received signal, stopping")
 	csvfile.flush()
 	csvfile.close()
+	exit()
 
 MEASUREMENT_INTERVAL = 5
 OUTPUT_FILE = "SP3175 Sensor Readings.csv"
