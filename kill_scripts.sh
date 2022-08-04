@@ -1,14 +1,14 @@
 #!/usr/bin/sh
-if pgrep -f "python3 measurements.py" > /dev/null ; then
-	echo "A running measurements.py process has been detected. Terminating ..."
-	pkill -f -SIGTERM "python3 measurements.py"
+if pgrep -f "SP3275_measurements.py" > /dev/null ; then
+	echo "A running SP3275_measurements.py process has been detected. Terminating ..."
+	pkill -f -SIGTERM "SP3275_measurements.py"
 	sleep 2
-	if ! pgrep -f "python3 measurements.py" > /dev/null ; then
-		echo "measurements.py terminated successfully"
+	if ! pgrep -f "SP3275_measurements.py" > /dev/null ; then
+		echo "SP3275_measurements.py terminated successfully"
 	else
-		echo "Failed to terminate measurements.py"
+		echo "Failed to terminate SP3275_measurements.py"
 	fi
 else
-	echo "No running measurements.py process has been detected."
+	echo "No running SP3275_measurements.py process has been detected."
 fi
 

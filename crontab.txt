@@ -22,4 +22,4 @@
 # 
 # m h  dom mon dow   command
 @reboot ./earth-sensors-article/copy.sh
-@reboot python3 ./earth-sensors-article/measurements.py > ./log.txt 2> ./errors.txt
+@reboot python3 ./earth-sensors-article/SP3275_measurements.py > ./log.txt 2> ./errors.txt
