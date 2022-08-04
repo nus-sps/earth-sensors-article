@@ -66,8 +66,10 @@ def close_CO2_sensor(sensor):
 	sensor.close()
 
 if __name__ == "__main__":
-	sensor = connect_to_CO2_sensor()
+	co2_sensor = connect_to_CO2_sensor()
+	bme_sensor = connect_to_bme688_sensor()
 	while True:
-		print(get_CO2_reading(sensor))
+		print(f"{get_CO2_reading(co2_sensor) = }, \n{bme_sensor.temperature = }, \n{bme_sensor.relative_humidity = }, \n{bme_sensor.pressure = }, \n{bme_sensor.gas =}")
+
 		time.sleep(5)
 	sensor.close()
