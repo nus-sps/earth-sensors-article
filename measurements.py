@@ -23,7 +23,7 @@ def signal_handler(sig_num, stack_frame):
 	exit()
 
 MEASUREMENT_INTERVAL = 5
-OUTPUT_FILE = "SP3175 Sensor Readings.csv"
+OUTPUT_FILE = "~/SP3175 Sensor Readings.csv"
 
 if OUTPUT_FILE not in listdir():
 	with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
