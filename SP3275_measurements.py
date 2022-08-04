@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
 import csv
 import time
 import signal
@@ -26,7 +26,7 @@ def signal_handler(sig_num, stack_frame):
 MEASUREMENT_INTERVAL = 5
 OUTPUT_FILE = expanduser("~/SP3175 Sensor Readings.csv")
 
-if OUTPUT_FILE not in listdir():
+if OUTPUT_FILE not in listdir(expanduser("~")):
 	with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 		csv_writer = csv.writer(csvfile)
 		csv_writer.writerow(("CO2", "Temperature", "Humidity", "Pressure, Gas"))
