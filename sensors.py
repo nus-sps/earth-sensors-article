@@ -10,13 +10,8 @@ def connect_to_bme688_sensor():
 		i2c = busio.I2C(board.SCL, board.SDA)
 		bme688_sensor = adafruit_bme680.Adafruit_BME680_I2C(i2c)
 	except:
-		print("Could not connect to BME688 sensor, retrying")
-		try:
-			i2c = busio.I2C(board.SCL, board.SDA)
-			bme688_sensor = adafruit_bme680.Adafruit_BME680_I2C(i2c)
-		except:
-			print("Still could not connect to BME688 sensor, exiting")
-			raise
+		print("Could not connect to BME688 sensor, exiting")
+		raise
 	return bme688_sensor
 
 def connect_to_CO2_sensor():
@@ -30,13 +25,7 @@ def connect_to_CO2_sensor():
 		sensor.reset_output_buffer()
 	except:
 		print("Could not connect to CO2 sensor, retrying")
-		try:
-			sensor = serial.Serial(SERIAL_PORT, baudrate = 9600, timeout = 0.8)
-			sensor.reset_input_buffer()
-			sensor.reset_output_buffer()
-		except:
-			print("Still could not connect to CO2 sensor, exiting")
-			raise
+		raise
 
 	time.sleep(1)
 	return sensor

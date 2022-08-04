@@ -3,7 +3,7 @@ import csv
 import time
 import signal
 from os import listdir
-from os.path import expanduser
+from os import path
 from sensors import connect_to_CO2_sensor, get_CO2_reading, connect_to_bme688_sensor
 from sys import exit
 from threading import Thread
@@ -24,12 +24,12 @@ def signal_handler(sig_num, stack_frame):
 	exit()
 
 MEASUREMENT_INTERVAL = 5
-OUTPUT_FILE = expanduser("~/SP3175 Sensor Readings.csv")
+OUTPUT_FILE = path.expanduser("~/SP3175 Sensor Readings.csv")
 
-if OUTPUT_FILE not in listdir(expanduser("~")):
+if not path.exists(OUTPUT_FILE):
 	with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 		csv_writer = csv.writer(csvfile)
-		csv_writer.writerow(("CO2", "Temperature", "Humidity", "Pressure, Gas"))
+		csv_writer.writerow(("CO2", "Temperature", "Humidity", "Pressure", "Gas"))
 
 with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 	csv_writer = csv.writer(csvfile)
