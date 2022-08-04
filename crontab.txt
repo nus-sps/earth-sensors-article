@@ -21,5 +21,5 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-@reboot ./copy.sh
-@reboot ./measurements.py > log.txt 2> errors.txt
+@reboot ./earth-sensors-article/copy.sh
+@reboot ./earth-sensors-article/measurements.py > ./log.txt 2> ./errors.txt
