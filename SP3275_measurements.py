@@ -24,7 +24,7 @@ def signal_handler(sig_num, stack_frame):
 	exit()
 
 MEASUREMENT_INTERVAL = 5
-OUTPUT_FILE = path.expanduser("~/SP3175 Sensor Readings.csv")
+OUTPUT_FILE = path.expanduser("~/SP3275 Sensor Readings.csv")
 
 if not path.exists(OUTPUT_FILE):
 	with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
