@@ -1,14 +1,15 @@
 #!/usr/bin/sh
-if pgrep -f "SP3275_measurements.py" > /dev/null ; then
-	echo "A running SP3275_measurements.py process has been detected. Terminating ..."
-	pkill -f -SIGTERM "SP3275_measurements.py"
+SCRIPT_NAME="SP3275_measurements.py"
+if pgrep -f "$SCRIPT_NAME" > /dev/null ; then
+	echo "A running $SCRIPT_NAME process has been detected. Terminating ..."
+	pkill -f -SIGTERM "$SCRIPT_NAME"
 	sleep 2
-	if ! pgrep -f "SP3275_measurements.py" > /dev/null ; then
-		echo "SP3275_measurements.py terminated successfully"
+	if ! pgrep -f "$SCRIPT_NAME" > /dev/null ; then
+		echo "$SCRIPT_NAME terminated successfully"
 	else
-		echo "Failed to terminate SP3275_measurements.py"
+		echo "Failed to terminate $SCRIPT_NAME"
 	fi
 else
-	echo "No running SP3275_measurements.py process has been detected."
+	echo "No running $SCRIPT_NAME process has been detected."
 fi
 
