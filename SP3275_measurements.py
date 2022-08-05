@@ -25,6 +25,11 @@ def signal_handler(sig_num, stack_frame):
 
 MEASUREMENT_INTERVAL = 5
 OUTPUT_FILE = path.expanduser("~/SP3275 Sensor Readings.csv")
+INDEX_FILE = path.expanduser("~/.last_index.txt")
+
+if not path.exists(INDEX_FILE):
+	with open(INDEX_FILE, mode = "a", buffering = 1) as index_file:
+		index_file.write("0\n")
 
 if not path.exists(OUTPUT_FILE):
 	with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
