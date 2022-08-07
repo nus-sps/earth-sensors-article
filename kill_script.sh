@@ -7,9 +7,9 @@ if pgrep -f "$SCRIPT_NAME" > /dev/null ; then
 	if ! pgrep -f "$SCRIPT_NAME" > /dev/null ; then
 		echo "$SCRIPT_NAME terminated successfully"
 	else
-		echo "Failed to terminate $SCRIPT_NAME"
+		echo "$SCRIPT_NAME still running after 2s, should terminate soon"
 	fi
 else
-	echo "No running $SCRIPT_NAME process has been detected."
+	echo "No running $SCRIPT_NAME process has been detected, exiting"
 fi
 
