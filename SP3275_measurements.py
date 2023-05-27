@@ -4,6 +4,7 @@ import time
 import signal
 from os import listdir
 from os import path
+from os import fsync
 from sensors import connect_to_CO2_sensor, get_CO2_reading, connect_to_bme688_sensor
 from sys import exit
 from threading import Thread
@@ -51,6 +52,7 @@ curr_index = last_index + 1
 
 with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 	csv_writer = csv.writer(csvfile)
+	csv_fd = csvfile.fileno()
 
 	CO2_sensor = connect_to_CO2_sensor()
 	bme688_sensor = connect_to_bme688_sensor()
@@ -73,6 +75,7 @@ with open(OUTPUT_FILE, mode = "a", buffering = 1) as csvfile:
 		# print(f"Measurement duration : {time.time() - loop_start_time} s")
 		csv_writer.writerow((curr_index, CO2, temp, hum, pressure, gas))
 		csvfile.flush()
+		fsync(csv_fd)
 		curr_index += 1
 
 		timer_thread.join()
