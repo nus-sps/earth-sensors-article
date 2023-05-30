@@ -2,9 +2,7 @@
 import csv
 import time
 import signal
-from os import listdir
-from os import path
-from os import fsync
+from os import listdir, fsync, path
 from sensors import connect_to_CO2_sensor, get_CO2_reading, connect_to_bme688_sensor
 from sys import exit
 from threading import Thread
@@ -22,6 +20,7 @@ def signal_handler(sig_num, stack_frame):
 	print("Received signal, stopping")
 	csvfile.flush()
 	csvfile.close()
+	fsync(csv_fd)
 	exit()
 
 MEASUREMENT_INTERVAL = 5
